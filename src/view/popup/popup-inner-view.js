@@ -1,10 +1,10 @@
 import {createElement} from '../../render.js';
 
-const createPopupContainerTemplate = () => `<section class="film-details"></section>`;
+const createPopupInnerTemplate = () => `<div class="film-details__inner"></div>`;
 
-  export default class PopupContainerView {
+  export default class PopupInnerView {
     getTemplate() {
-      return createPopupContainerTemplate();
+      return createPopupInnerTemplate();
     }
 
     getElement() {
