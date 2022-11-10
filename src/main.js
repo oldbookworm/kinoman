@@ -19,8 +19,10 @@ render(new MainNavView(), siteMainElement);
 render(new SortView(), siteMainElement);
 
 filmsListPresenter.init(siteMainElement);
-popupPresenter.init(siteMainElement);
+// popupPresenter.init(siteMainElement);
 
 render(new StatisticsView(), siteFooterElement);
+
+
 
 
