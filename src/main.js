@@ -4,12 +4,7 @@ import StatisticsView from './view/statistics-view';
 import {render} from './render.js';
 
 import FilmsPresenter from './presenter/films-presenter.js';
-
-// временно:
-import {generateFilm} from './mock/mock-film';
-let movie = generateFilm();
-console.log(movie);
-
+import FilmsModel from './model/films-model';
 
 
 const siteHeaderElement = document.querySelector('.header');
@@ -17,12 +12,13 @@ const siteMainElement = document.querySelector('.main');
 const siteFooterElement = document.querySelector('.footer');
 
 const filmsPresenter = new FilmsPresenter();
+const filmsModel = new FilmsModel();
 
 
 render(new UserProfileView(), siteHeaderElement);
 render(new MainNavView(), siteMainElement);
 
-filmsPresenter.init(siteMainElement);
+filmsPresenter.init(siteMainElement, filmsModel);
 
 
 render(new StatisticsView(), siteFooterElement);

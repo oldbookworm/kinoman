@@ -29,13 +29,13 @@ const TITLES = [
 
 
   const POSTERS = [
-    '../markup/images/posters/made-for-each-other.png',
-    '../markup/images/posters/popeye-meets-sinbad.png',
-    '../markup/images/posters/sagebrush-trail.jpg',
-    '../markup/images/posters/santa-claus-conquers-the-martians.jpg',
-    '../markup/images/posters/the-dance-of-life.jpg',
-    '../markup/images/posters/the-great-flamarion.jpg',
-    '../markup/images/posters/the-man-with-the-golden-arm.jpg',
+    './images/posters/made-for-each-other.png',
+    './images/posters/popeye-meets-sinbad.png',
+    './images/posters/sagebrush-trail.jpg',
+    './images/posters/santa-claus-conquers-the-martians.jpg',
+    './images/posters/the-dance-of-life.jpg',
+    './images/posters/the-great-flamarion.jpg',
+    './images/posters/the-man-with-the-golden-arm.jpg',
   ];
 
 

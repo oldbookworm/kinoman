@@ -14,21 +14,23 @@ export default class FilmsPresenter {
  filmsListContainerComponent = new FilmsListContainerView();
  showMoreBtnComponent = new ShowMoreBtnView();
 
- init = (container) => {
+ init = (container, model) => {
   this.container = container;
+  this.model = model;
+  this.films = [...this.model.getFilms()];
 
   render(this.sortComponent, this.container);
   render(this.contentBlockComponent, this.container);
   render(this.filmsListComponent, this.contentBlockComponent.getElement());
   render(this.filmsListContainerComponent, this.filmsListComponent.getElement());
 
-  for(let i = 0; i < 5; i++){
-    render(new FilmCardView(), this.filmsListContainerComponent.getElement());
+  for(let i = 0; i < this.films.length; i++){
+    render(new FilmCardView(this.films[i]), this.filmsListContainerComponent.getElement());
   }
 
   render(this.showMoreBtnComponent, this.filmsListComponent.getElement());
 
-  render(new FilmPopupView(), this.container.parentElement);
+  // render(new FilmPopupView(), this.container.parentElement);
  };
 
 }

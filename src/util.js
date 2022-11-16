@@ -40,6 +40,11 @@ const getRandomArray = (arr, maxLength) => {
     return newArr;
 };
 
+const convertTiming = (mins) => {
+  let hours = Math.trunc(mins/60);
+  let minutes = mins % 60;
+  return `${hours}h ${minutes}m`;
+}
 
 
-export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray};
+export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, convertTiming};

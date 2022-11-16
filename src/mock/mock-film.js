@@ -11,6 +11,9 @@ const MAX_ACTORS_COUNT = 5;
 const MIN_RUNTIME = 40;
 const MAX_RUNTIME = 150;
 const MAX_GENRES_COUNT = 2;
+const FISH_DESCRIPTION = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras aliquet varius magna, non porta ligula feugiat eget. Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra. Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante. Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum. Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.';
+
+const FILMS_COUNT = 5;
 
 export const generateFilm = () => {
   return {
@@ -28,9 +31,19 @@ export const generateFilm = () => {
     },
     runtime: getRandomInteger(MIN_RUNTIME, MAX_RUNTIME),
     genre: getRandomArray(GENRES, MAX_GENRES_COUNT),
+    description: FISH_DESCRIPTION,
   };
 };
 
+export const generateFilms = () => {
+  const films = Array.from({length: FILMS_COUNT}, generateFilm);
 
+  return films.map((film, index) => {
+    return {
+      id: String(index + 1),
+      filmInfo: film,
+    };
+  });
+};
 
 
