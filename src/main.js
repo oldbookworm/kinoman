@@ -5,6 +5,12 @@ import {render} from './render.js';
 
 import FilmsPresenter from './presenter/films-presenter.js';
 
+// временно:
+import {generateFilm} from './mock/mock-film';
+let movie = generateFilm();
+console.log(movie);
+
+
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
