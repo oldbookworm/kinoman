@@ -1,5 +1,8 @@
-export const createFilmPopupCommentsTemplate = () =>
-  `<ul class="film-details__comments-list">
+export const createFilmPopupCommentsTemplate = (popupComments) => {
+
+  const {author, comment, date, emotion} = popupComments;
+
+  return (`<ul class="film-details__comments-list">
   <li class="film-details__comment">
     <span class="film-details__comment-emoji">
       <img src="./images/emoji/smile.png" width="55" height="55" alt="emoji-smile">
@@ -53,4 +56,5 @@ export const createFilmPopupCommentsTemplate = () =>
     </div>
   </li>
 </ul>
-  `;
+  `);
+}

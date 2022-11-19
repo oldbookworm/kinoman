@@ -14,10 +14,12 @@ export default class FilmsPresenter {
  filmsListContainerComponent = new FilmsListContainerView();
  showMoreBtnComponent = new ShowMoreBtnView();
 
- init = (container, model) => {
+ init = (container, filmsModel, commentsModel) => {
   this.container = container;
-  this.model = model;
-  this.films = [...this.model.getFilms()];
+  this.filmsModel = filmsModel;
+  this.films = [...this.filmsModel.getFilms()];
+  this.commentsModel = commentsModel;
+  this.comments = [...this.commentsModel.getComments()];
 
   render(this.sortComponent, this.container);
   render(this.contentBlockComponent, this.container);
@@ -25,12 +27,15 @@ export default class FilmsPresenter {
   render(this.filmsListContainerComponent, this.filmsListComponent.getElement());
 
   for(let i = 0; i < this.films.length; i++){
-    render(new FilmCardView(this.films[i]), this.filmsListContainerComponent.getElement());
+    this.filmComments = [...this.comments].filter((comment) => {
+       return this.films[i].id === comment.id;
+    });
+    render(new FilmCardView(this.films[i], this.filmComments), this.filmsListContainerComponent.getElement());
   }
 
   render(this.showMoreBtnComponent, this.filmsListComponent.getElement());
 
-  // render(new FilmPopupView(), this.container.parentElement);
+  render(new FilmPopupView(this.films[0], this.comments.slice(0,4)), this.container.parentElement);
  };
 
 }

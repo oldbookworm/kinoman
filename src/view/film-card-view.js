@@ -2,8 +2,10 @@ import {createElement} from '../render.js';
 import {convertTiming} from '../util.js';
 
 
-const createfilmCardTemplate = (filmInfo) => {
+const createfilmCardTemplate = (filmInfo, comments) => {
   const {filmInfo: {title, totalRating, poster, release: { releaseDate}, runtime, genre, description}} = filmInfo;
+
+  const commentsNumber = comments.length;
 
   const duration = convertTiming(runtime);
 
@@ -19,7 +21,7 @@ const createfilmCardTemplate = (filmInfo) => {
     </p>
     <img src="${poster}" alt="" class="film-card__poster">
     <p class="film-card__description">${description}</p>
-    <span class="film-card__comments">5 comments</span>
+    <span class="film-card__comments">${commentsNumber} comments</span>
   </a>
   <div class="film-card__controls">
     <button class="film-card__controls-item film-card__controls-item--add-to-watchlist" type="button">Add to watchlist</button>
@@ -31,12 +33,13 @@ const createfilmCardTemplate = (filmInfo) => {
 };
 
   export default class FilmCardView {
-    constructor(film) {
+    constructor(film, comments) {
       this.film = film;
+      this.comments = comments;
     }
 
     getTemplate() {
-      return createfilmCardTemplate(this.film);
+      return createfilmCardTemplate(this.film, this.comments);
     }
 
     getElement() {
