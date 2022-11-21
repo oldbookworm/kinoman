@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 // получить рандомное число
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
@@ -40,11 +42,31 @@ const getRandomArray = (arr, maxLength) => {
     return newArr;
 };
 
+// Перевести минуты в минуты и часы
 const convertTiming = (mins) => {
   let hours = Math.trunc(mins/60);
   let minutes = mins % 60;
   return `${hours}h ${minutes}m`;
 }
 
+// Красивое отображение даты для комментариев
+const beautifyCommentDate = (date) => {
+  const now = dayjs().format('YYYY/MM/D HH:m');
+  const beautifyDate = dayjs(date).format('YYYY/MM/D HH:m');
 
-export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, convertTiming};
+  const dateDifference = dayjs(beautifyDate).diff(now, 'day');
+  const stringifyDiff = String(dateDifference).slice(1);
+
+
+  if(dateDifference < 0 && dateDifference > -4) {
+    return (`${stringifyDiff} ${stringifyDiff == '1' ? 'день' : 'дня'} назад`);
+  } else if(dateDifference == '0') {
+    return 'Сегодня';
+  } else {
+    return beautifyDate;
+  }
+};
+
+
+
+export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, convertTiming, beautifyCommentDate};

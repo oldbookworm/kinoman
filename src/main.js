@@ -29,3 +29,5 @@ render(new StatisticsView(), siteFooterElement);
 
 
 
+
+
