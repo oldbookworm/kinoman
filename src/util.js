@@ -33,7 +33,7 @@ const shuffle = (array) => {
 
 // получаем массив случайной длины из неповторяющихся значений
 const getRandomArray = (arr, maxLength) => {
-    const arrLength = getRandomInteger(1, +maxLength);
+    const arrLength = getRandomInteger(1, +maxLength - 1);
     const shuffledArr = shuffle(arr);
     const newArr = [];
     for (let i = 0; i <= arrLength; i++) {

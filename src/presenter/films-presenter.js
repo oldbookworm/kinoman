@@ -17,6 +17,7 @@ export default class FilmsPresenter {
  #container = null;
  #filmsModel = null;
  #commentsModel = null;
+ #popupComponent = null;
 
  #films = [];
  #comments = [];
@@ -36,14 +37,53 @@ export default class FilmsPresenter {
 
   for(let i = 0; i < this.#films.length; i++){
     this.#filmComments = [...this.#comments].filter((comment) => {
-       return this.#films[i].id === comment.id;
+          return this.#films[i].id === comment.id;
     });
-    render(new FilmCardView(this.#films[i], this.#filmComments), this.#filmsListContainerComponent.element);
+    this.#renderFilm(this.#films[i], this.#filmComments);
   }
 
   render(this.#showMoreBtnComponent, this.#filmsListComponent.element);
-
-  render(new FilmPopupView(this.#films[0], this.#comments.slice(0,4)), this.#container.parentElement);
  };
+
+#renderFilm = (film, comments) => {
+  const filmCardComponent = new FilmCardView(film, comments);
+
+  const filmCardElement = filmCardComponent.element.querySelector('a');
+
+  filmCardElement.addEventListener('click', (evt) => {
+    this.#renderPopup(film, comments);
+    document.body.classList.add('hide-overflow');
+    document.addEventListener('keydown', this.#removeOnEsc);
+  });
+
+  render(filmCardComponent, this.#filmsListContainerComponent.element)
+
+};
+
+#renderPopup = (film, comments) => {
+  this.#popupComponent = new FilmPopupView(film, comments);
+  render(this.#popupComponent, this.#container.parentElement);
+
+  const popupCloseButton = this.#popupComponent.element.querySelector('.film-details__close-btn');
+
+  popupCloseButton.addEventListener('click', () => {
+    this.#removePopup();
+    document.removeEventListener('keydown', this.#removeOnEsc);
+  });
+}
+
+#removePopup = () => {
+  this.#popupComponent.element.remove();
+  this.#popupComponent = null;
+  document.body.classList.remove('hide-overflow');
+};
+
+#removeOnEsc = (evt) => {
+  if (evt.key === 'Escape' || evt.key === 'Esc') {
+    evt.preventDefault();
+    this.#removePopup();
+    document.removeEventListener('keydown', this.#removeOnEsc);
+  }
+};
 
 }

@@ -780,3 +780,10 @@ button {
   bottom: 5px;
   margin-left: 81px;
 }
+
+/* Мои стили */
+
+.film-card__genre {
+  display: block;
+  width: 90%;
+}

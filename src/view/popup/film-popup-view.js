@@ -4,9 +4,12 @@ import {createFilmPopupCommentsTemplate} from './film-popup-comments-template.js
 import {createFilmPopupFormTemplate} from './film-popup-form-template.js';
 import {createFilmPopupControlsTemplate} from './film-popup-controls-template.js';
 
-const createFilmPopupTemplate = (popupInfo, popupComments) =>
-  `
-    <section class="film-details">
+const createFilmPopupTemplate = (popupInfo, popupComments) => {
+
+  const commentsCount = popupComments.length;
+
+  return (
+  `<section class="film-details">
       <div class="film-details__inner">
         <div class="film-details__top-container">
           <div class="film-details__close">
@@ -21,7 +24,7 @@ const createFilmPopupTemplate = (popupInfo, popupComments) =>
 
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
 
             ${createFilmPopupCommentsTemplate(popupComments)}
 
@@ -31,8 +34,8 @@ const createFilmPopupTemplate = (popupInfo, popupComments) =>
         </div>
       </div>
     </section>
-  `;
-
+  `);
+}
 export default class FilmPopupView {
   #element = null;
   #film = null;

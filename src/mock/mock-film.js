@@ -10,7 +10,7 @@ const MAX_WRITERS_COUNT = 3;
 const MAX_ACTORS_COUNT = 5;
 const MIN_RUNTIME = 40;
 const MAX_RUNTIME = 150;
-const MAX_GENRES_COUNT = 3;
+const MAX_GENRES_COUNT = 1;
 
 
 export const generateFilm = () => {
