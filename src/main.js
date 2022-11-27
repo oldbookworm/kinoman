@@ -12,19 +12,17 @@ const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
 const siteFooterElement = document.querySelector('.footer');
 
-const filmsPresenter = new FilmsPresenter();
 const filmsModel = new FilmsModel();
 const commentsModel = new CommentsModel();
-
+const filmsPresenter = new FilmsPresenter(siteMainElement, filmsModel, commentsModel);
 
 render(new UserProfileView(), siteHeaderElement);
 render(new MainNavView(), siteMainElement);
 
-filmsPresenter.init(siteMainElement, filmsModel, commentsModel);
 
+filmsPresenter.init();
 
 render(new StatisticsView(), siteFooterElement);
-
 
 
 

@@ -5,6 +5,7 @@ import FilmsListContainerView from '../view/films-list-container-view';
 import FilmCardView from '../view/film-card-view';
 import ShowMoreBtnView from '../view/show-more-btn-view';
 import FilmPopupView from '../view/popup/film-popup-view';
+import NoFilmsView from '../view/no-films-view';
 import {render} from '../render.js';
 
 const CARDS_COUNT_PER_STEP = 5;
@@ -26,22 +27,28 @@ export default class FilmsPresenter {
 
  #renderedFilmsCount = CARDS_COUNT_PER_STEP;
 
-init = (container, filmsModel, commentsModel) => {
+ constructor(container, filmsModel, commentsModel) {
   this.#container = container;
   this.#filmsModel = filmsModel;
-  this.#films = [...this.#filmsModel.films];
   this.#commentsModel = commentsModel;
+}
+
+init = () => {
+  this.#films = [...this.#filmsModel.films];
   this.#comments = [...this.#commentsModel.comments];
 
-  if(this.#films.length === 0) {
-    // render(new NoFilmView(), this.#container);
-    alert('puk!');
-  } else {
-    render(this.#sortComponent, this.#container);
-    render(this.#contentBlockComponent, this.#container);
-    render(this.#filmsListComponent, this.#contentBlockComponent.element);
-    render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
+  this.#renderFilmCards();
+};
 
+#renderFilmCards = () => {
+  render(this.#sortComponent, this.#container);
+  render(this.#contentBlockComponent, this.#container);
+  render(this.#filmsListComponent, this.#contentBlockComponent.element);
+  render(this.#filmsListContainerComponent, this.#filmsListComponent.element);
+
+  if(this.#films.length === 0) {
+    render(new NoFilmsView(), this.#filmsListComponent.element);
+  } else {
     for(let i = 0; i < Math.min(this.#films.length, CARDS_COUNT_PER_STEP); i++){
       this.#renderFilm(this.#films[i]);
     }
@@ -53,8 +60,8 @@ init = (container, filmsModel, commentsModel) => {
   }
 }
 
-  #handleShowMoreBtnClick = (evt) => {
-    evt.preventDefault();
+#handleShowMoreBtnClick = (evt) => {
+  evt.preventDefault();
     this.#films
       .slice(this.#renderedFilmsCount, this.#renderedFilmsCount + CARDS_COUNT_PER_STEP)
       .forEach((film) => this.#renderFilm(film));
@@ -67,24 +74,24 @@ init = (container, filmsModel, commentsModel) => {
     }
   };
 
-  #renderFilm = (film) => {
-    this.#filmComments = [...this.#comments].filter((comment) => {
+#renderFilm = (film) => {
+  this.#filmComments = [...this.#comments].filter((comment) => {
             return film.id === comment.id;
-      });
+  });
 
-    const filmCardComponent = new FilmCardView(film, this.#filmComments);
+  const filmCardComponent = new FilmCardView(film, this.#filmComments);
 
-    const filmCardElement = filmCardComponent.element.querySelector('a');
+  const filmCardElement = filmCardComponent.element.querySelector('a');
 
-    filmCardElement.addEventListener('click', (evt) => {
-      this.#renderPopup(film, this.#filmComments);
-      document.body.classList.add('hide-overflow');
-      document.addEventListener('keydown', this.#removeOnEsc);
-    });
+  filmCardElement.addEventListener('click', (evt) => {
+    this.#renderPopup(film, this.#filmComments);
+    document.body.classList.add('hide-overflow');
+    document.addEventListener('keydown', this.#removeOnEsc);
+  });
 
-    render(filmCardComponent, this.#filmsListContainerComponent.element)
+  render(filmCardComponent, this.#filmsListContainerComponent.element)
 
-  };
+};
 
 #renderPopup = (film, comments) => {
   this.#popupComponent = new FilmPopupView(film, comments);
