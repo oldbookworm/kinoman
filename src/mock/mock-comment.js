@@ -1,4 +1,4 @@
-import {getRandomInteger, getRandomArrayElement, beautifyCommentDate} from '../util.js';
+import {getRandomInteger, getRandomArrayElement, beautifyCommentDate} from '../util/util.js';
 import {COMMENTS_AUTHORS, COMMENTS, COMMENT_EMOTIONS, FILMS_COUNT} from './mock-data.js';
 
 import dayjs from 'dayjs';
