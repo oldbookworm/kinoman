@@ -67,8 +67,14 @@ const beautifyCommentDate = (date) => {
   }
 };
 
+// Функция сортировки комментариев
+const findComments = (film, comments) => {
+  const sortedComments = [...comments].filter((comment) => {
+    return film.id === comment.id;
+  });
+  return sortedComments;
+}
 
 
 
-
-export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, convertTiming, beautifyCommentDate};
+export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, convertTiming, beautifyCommentDate, findComments};
