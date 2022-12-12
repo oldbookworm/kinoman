@@ -5,7 +5,7 @@ import {render} from './framework/render.js';
 import { generateFilter } from './mock/filter';
 import { getUserStatus } from './util/user';
 
-import FilmsPresenter from './presenter/films-presenter.js';
+import MainPresenter from './presenter/main-presenter.js';
 import FilmsModel from './model/films-model';
 import CommentsModel from './model/comments-model';
 
@@ -16,7 +16,7 @@ const siteFooterElement = document.querySelector('.footer');
 
 const filmsModel = new FilmsModel();
 const commentsModel = new CommentsModel();
-const filmsPresenter = new FilmsPresenter(siteMainElement, filmsModel, commentsModel);
+const mainPresenter = new MainPresenter(siteMainElement, filmsModel, commentsModel);
 const filters = generateFilter(filmsModel.films);
 const filmCount = filmsModel.films.length;
 const userStatus = getUserStatus(filmsModel.films);
@@ -26,7 +26,7 @@ render(new UserProfileView(userStatus), siteHeaderElement);
 render(new MainNavView(filters), siteMainElement);
 
 
-filmsPresenter.init();
+mainPresenter.init();
 
 render(new StatisticsView(filmCount), siteFooterElement);
 
