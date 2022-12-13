@@ -5,6 +5,7 @@ import FilmsListContainerView from '../view/films-list-container-view';
 import ShowMoreBtnView from '../view/show-more-btn-view';
 import NoFilmsView from '../view/no-films-view';
 import {render} from '../framework/render.js';
+import { updateItem } from '../util/util';
 import FilmPresenter from './film-presenter';
 
 const CARDS_COUNT_PER_STEP = 5;
@@ -27,6 +28,8 @@ export default class MainPresenter {
  #films = [];
  #comments = [];
 
+ #filmPresenter = new Map();
+
  #renderedFilmsCount = CARDS_COUNT_PER_STEP;
 
  constructor(container, filmsModel, commentsModel) {
@@ -40,6 +43,11 @@ init = () => {
   this.#comments = [...this.#commentsModel.comments];
 
   this.#renderMainFilmsContent();
+};
+
+#changeFilmHandler = (updatedFilm) => {
+  this.#films = updateItem(this.#films, updatedFilm);
+  this.#filmPresenter.get(updatedFilm.id).init(updatedFilm);
 };
 
 #renderMainFilmsContent = () => {
@@ -97,8 +105,16 @@ init = () => {
 
 
 #renderFilm = (film) => {
-  const filmPresenter = new FilmPresenter(this.#filmsListContainerComponent.element, this.#comments);
+  const filmPresenter = new FilmPresenter(this.#filmsListContainerComponent.element, this.#comments, this.#changeFilmHandler);
    filmPresenter.init(film);
+   this.#filmPresenter.set(film.id, filmPresenter);
+};
+
+#clearFilmsList = () => {
+  this.#filmPresenter.forEach((presenter) => presenter.destroy());
+  this.#filmPresenter.clear();
+  this.#renderedFilmsCount = TASK_COUNT_PER_STEP;
+  remove(this.#showMoreBtnComponent);
 };
 
 }
