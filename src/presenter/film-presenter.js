@@ -10,6 +10,7 @@ export default class FilmPresenter {
     #film = null;
     #filmCardComponent = null;
     #changeData = null;
+    #popupPresenter = null;
 
     #comments = [];
     #filmComments = [];
@@ -32,9 +33,7 @@ export default class FilmPresenter {
     this.#filmCardComponent = new FilmCardView(this.#film, this.#filmComments);
 
     this.#filmCardComponent.setCardClickHandler(() => {
-      const popupPresenter = new PopupPresenter(this.#container.parentElement);
-      popupPresenter.init(this.#film, this.#comments);
-      document.body.classList.add('hide-overflow');
+      this.#renderPopup(this.#film, this.#filmComments);
     });
 
     this.#filmCardComponent.setWatchlistBtnClickHandler(this.#watchlistBtnClickHandler);
@@ -50,6 +49,14 @@ export default class FilmPresenter {
     remove(prevFilmCardComponent);
 
 };
+
+#renderPopup = (film, comments) => {
+  if(!this.#popupPresenter) {
+    this.#popupPresenter = new PopupPresenter(this.#container.parentElement, this.#changeData);
+  }
+   this.#popupPresenter.init(film, comments);
+   document.body.classList.add('hide-overflow');
+}
 
   destroy = () => {
     remove(this.#filmCardComponent);
