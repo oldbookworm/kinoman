@@ -10,16 +10,17 @@ export default class FilmPresenter {
     #film = null;
     #filmCardComponent = null;
     #changeData = null;
-    #popupPresenter = null;
+    #renderPopupHandler = null;
 
     #comments = [];
     #filmComments = [];
 
 
-  constructor(container, comments, changeData) {
+  constructor(container, comments, changeData, renderPopupHandler) {
         this.#container = container;
         this.#comments = comments;
         this.#changeData = changeData;
+        this.#renderPopupHandler = renderPopupHandler;
     }
 
   init = (film) => {
@@ -33,7 +34,7 @@ export default class FilmPresenter {
     this.#filmCardComponent = new FilmCardView(this.#film, this.#filmComments);
 
     this.#filmCardComponent.setCardClickHandler(() => {
-      this.#renderPopup(this.#film, this.#filmComments);
+      this.#renderPopupHandler(this.#film);
     });
 
     this.#filmCardComponent.setWatchlistBtnClickHandler(this.#watchlistBtnClickHandler);
@@ -50,13 +51,6 @@ export default class FilmPresenter {
 
 };
 
-#renderPopup = (film, comments) => {
-  if(!this.#popupPresenter) {
-    this.#popupPresenter = new PopupPresenter(this.#container.parentElement, this.#changeData);
-  }
-   this.#popupPresenter.init(film, comments);
-   document.body.classList.add('hide-overflow');
-}
 
   destroy = () => {
     remove(this.#filmCardComponent);

@@ -9,11 +9,13 @@ export default class PopupPresenter {
     #comments = null;
     #filmComments = null;
     #changeData = null;
+    #removePopup = null;
 
 
-    constructor(popupContainer, changeData) {
+    constructor(popupContainer, changeData, removePopup) {
         this.#popupContainer = popupContainer;
         this.#changeData = changeData;
+        this.#removePopup = removePopup;
     }
 
 
@@ -52,12 +54,6 @@ export default class PopupPresenter {
     destroy = () => {
         remove(this.#popupComponent);
     };
-
-    #removePopup = () => {
-        this.#popupComponent.element.remove();
-        this.#popupComponent = null;
-        document.body.classList.remove('hide-overflow');
-      };
 
     #removeOnEsc = (evt) => {
         if (evt.key === 'Escape' || evt.key === 'Esc') {

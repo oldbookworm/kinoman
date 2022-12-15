@@ -7,6 +7,7 @@ import NoFilmsView from '../view/no-films-view';
 import {render} from '../framework/render.js';
 import { updateItem } from '../util/util';
 import FilmPresenter from './film-presenter';
+import PopupPresenter from './popup-presenter';
 
 const CARDS_COUNT_PER_STEP = 5;
 
@@ -23,6 +24,9 @@ export default class MainPresenter {
  #container = null;
  #filmsModel = null;
  #commentsModel = null;
+ #popupPresenter = null;
+
+ #selectedFilm = null;
 
 
  #films = [];
@@ -48,6 +52,11 @@ init = () => {
 #changeFilmHandler = (updatedFilm) => {
   this.#films = updateItem(this.#films, updatedFilm);
   this.#filmPresenter.get(updatedFilm.id).init(updatedFilm);
+
+  if(this.#popupPresenter && this.#selectedFilm.id === updatedFilm.id) {
+    this.#selectedFilm = updatedFilm;
+    this.#renderPopup();
+  }
 };
 
 #renderMainFilmsContent = () => {
@@ -105,9 +114,36 @@ init = () => {
 
 
 #renderFilm = (film) => {
-  const filmPresenter = new FilmPresenter(this.#filmsListContainerComponent.element, this.#comments, this.#changeFilmHandler);
+  const filmPresenter = new FilmPresenter(this.#filmsListContainerComponent.element, this.#comments, this.#changeFilmHandler, this.#addPopupComponent);
    filmPresenter.init(film);
    this.#filmPresenter.set(film.id, filmPresenter);
+};
+
+#addPopupComponent = (film) => {
+  if(this.#selectedFilm && this.#selectedFilm.id === film.id) {
+    return;
+  }
+  if(this.#selectedFilm && this.selectedFilm.id !== film.id) {
+    this.#removePopup();
+  }
+
+  this.#selectedFilm = film;
+  this.#renderPopup();
+  document.body.classList.add('hide-overflow');
+};
+
+#renderPopup = () => {
+  if(!this.#popupPresenter) {
+    this.#popupPresenter = new PopupPresenter(this.#container.parentElement, this.#changeFilmHandler, this.#removePopup);
+  }
+  this.#popupPresenter.init(this.#selectedFilm, this.#comments);
+};
+
+#removePopup = () => {
+  this.#popupPresenter.destroy();
+  this.#popupPresenter = null;
+  this.#selectedFilm = null;
+  document.body.classList.remove('hide-overflow');
 };
 
 #clearFilmsList = () => {
