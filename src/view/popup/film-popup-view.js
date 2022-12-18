@@ -5,7 +5,6 @@ import {createFilmPopupFormTemplate} from './film-popup-form-template.js';
 import {createFilmPopupControlsTemplate} from './film-popup-controls-template.js';
 
 const createFilmPopupTemplate = (popupInfo, popupComments) => {
-
   const commentsCount = popupComments.length;
 
   return (
@@ -18,7 +17,7 @@ const createFilmPopupTemplate = (popupInfo, popupComments) => {
 
           ${createFilmPopupInfoTemplate(popupInfo)}
 
-          ${createFilmPopupControlsTemplate()}
+          ${createFilmPopupControlsTemplate(popupInfo)}
 
         </div>
 
@@ -58,6 +57,36 @@ export default class FilmPopupView extends AbstractView {
    #closeBtnClickHandler = (evt) => {
       evt.preventDefault();
       this._callback.closeBtnClick();
+  };
+
+  setWatchlistBtnClickHandler = (callback) => {
+    this._callback.watchlistBtnClick = callback;
+    this.element.querySelector('.film-details__control-button--watchlist').addEventListener('click', this.#watchlistBtnClickHandler);
+  };
+
+#watchlistBtnClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchlistBtnClick();
+ };
+
+  setWatchedBtnClickHandler = (callback) => {
+    this._callback.watchedBtnClick = callback;
+    this.element.querySelector('.film-details__control-button--watched').addEventListener('click', this.#watchedBtnClickHandler);
+  };
+
+#watchedBtnClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.watchedBtnClick();
+  };
+
+  setFavoriteBtnClickHandler = (callback) => {
+    this._callback.favoriteBtnClick = callback;
+    this.element.querySelector('.film-details__control-button--favorite').addEventListener('click', this.#favoriteBtnClickHandler);
+  };
+
+#favoriteBtnClickHandler = (evt) => {
+    evt.preventDefault();
+    this._callback.favoriteBtnClick();
   };
 
 }
