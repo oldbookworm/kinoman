@@ -1,11 +1,10 @@
-import AbstractView from '../../framework/view/abstract-view.js';
+import AbstractStatefulView from '../../framework/view/abstract-view.js';
 import {createFilmPopupInfoTemplate} from './film-popup-info-template.js';
 import {createFilmPopupCommentsTemplate} from './film-popup-comments-template.js';
 import {createFilmPopupFormTemplate} from './film-popup-form-template.js';
 import {createFilmPopupControlsTemplate} from './film-popup-controls-template.js';
 
-const createFilmPopupTemplate = (popupInfo, popupComments) => {
-  const commentsCount = popupComments.length;
+const createFilmPopupTemplate = ({filmInfo, userDetails, comments}) => {
 
   return (
   `<section class="film-details">
@@ -15,17 +14,17 @@ const createFilmPopupTemplate = (popupInfo, popupComments) => {
             <button class="film-details__close-btn" type="button">close</button>
           </div>
 
-          ${createFilmPopupInfoTemplate(popupInfo)}
+          ${createFilmPopupInfoTemplate(filmInfo)}
 
-          ${createFilmPopupControlsTemplate(popupInfo)}
+          ${createFilmPopupControlsTemplate(userDetails)}
 
         </div>
 
         <div class="film-details__bottom-container">
           <section class="film-details__comments-wrap">
-            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${commentsCount}</span></h3>
+            <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
 
-            ${createFilmPopupCommentsTemplate(popupComments)}
+            ${createFilmPopupCommentsTemplate(comments)}
 
             ${createFilmPopupFormTemplate()}
 
@@ -35,19 +34,20 @@ const createFilmPopupTemplate = (popupInfo, popupComments) => {
     </section>
   `);
 }
-export default class FilmPopupView extends AbstractView {
-  #film = null;
-  #comments = null;
+export default class FilmPopupView extends AbstractStatefulView {
 
   constructor(film, comments) {
     super();
-    this.#film = film;
-    this.#comments = comments;
+    this._state = FilmPopupView.parseFilmToState(film, comments);
   }
 
   get template() {
-    return createFilmPopupTemplate(this.#film, this.#comments);
+    return createFilmPopupTemplate(this._state);
   }
+
+  static parseFilmToState = (film, comments) => ({...film, comments
+  });
+
 
   setCloseBtnClickHandler = (callback) => {
       this._callback.closeBtnClick = callback;
@@ -88,5 +88,9 @@ export default class FilmPopupView extends AbstractView {
     evt.preventDefault();
     this._callback.favoriteBtnClick();
   };
+
+  // setEmojiHandler = (callback) => {
+
+  // };
 
 }
