@@ -75,6 +75,21 @@ const findComments = (film, comments) => {
   return sortedComments;
 }
 
+// Функция-рандомайзер для кнопок
+const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1),
+  ];
+};
 
 
-export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, convertTiming, beautifyCommentDate, findComments};
+
+export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArray, convertTiming, beautifyCommentDate, findComments, updateItem};
