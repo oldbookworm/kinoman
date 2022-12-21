@@ -1,7 +1,7 @@
 import { convertTiming } from "../../util/util";
 
 export const createFilmPopupInfoTemplate = (popupInfo) => {
-  const {filmInfo: {title, alternativeTitle, totalRating, poster, ageRating, director, writers, actors, release: {releaseDate, releaseCountry}, runtime, genre, description}} = popupInfo;
+  const {title, alternativeTitle, totalRating, poster, ageRating, director, writers, actors, release: {releaseDate, releaseCountry}, runtime, genre, description} = popupInfo;
 
   const duration = convertTiming(runtime);
 

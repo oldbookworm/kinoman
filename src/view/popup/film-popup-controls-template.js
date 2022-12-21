@@ -1,6 +1,6 @@
 export const createFilmPopupControlsTemplate = (popupInfo) => {
 
-const {userDetails: {watchlist, alreadyWatched, favorite}} = popupInfo;
+const {watchlist, alreadyWatched, favorite} = popupInfo;
 
  return ( `
     <section class="film-details__controls">
