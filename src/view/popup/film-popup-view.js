@@ -1,10 +1,10 @@
-import AbstractStatefulView from '../../framework/view/abstract-view.js';
+import AbstractStatefulView from '../../framework/view/abstract-stateful-view.js';
 import {createFilmPopupInfoTemplate} from './film-popup-info-template.js';
 import {createFilmPopupCommentsTemplate} from './film-popup-comments-template.js';
 import {createFilmPopupFormTemplate} from './film-popup-form-template.js';
 import {createFilmPopupControlsTemplate} from './film-popup-controls-template.js';
 
-const createFilmPopupTemplate = ({filmInfo, userDetails, comments}) => {
+const createFilmPopupTemplate = ({filmInfo, userDetails, comments, checkedEmotion, comment}) => {
 
   return (
   `<section class="film-details">
@@ -26,7 +26,7 @@ const createFilmPopupTemplate = ({filmInfo, userDetails, comments}) => {
 
             ${createFilmPopupCommentsTemplate(comments)}
 
-            ${createFilmPopupFormTemplate()}
+            ${createFilmPopupFormTemplate(checkedEmotion, comment)}
 
           </section>
         </div>
@@ -39,13 +39,18 @@ export default class FilmPopupView extends AbstractStatefulView {
   constructor(film, comments) {
     super();
     this._state = FilmPopupView.parseFilmToState(film, comments);
+    this.#setInnerHandlers();
   }
 
   get template() {
     return createFilmPopupTemplate(this._state);
   }
 
-  static parseFilmToState = (film, comments) => ({...film, comments
+  setScrollPosition = () => {
+    this.element.scrollTop = this._state.scrollPosition;
+  };
+
+  static parseFilmToState = (film, comments, checkedEmotion = null, comment, scrollPosition = 0) => ({...film, comments, checkedEmotion, comment, scrollPosition
   });
 
 
@@ -89,8 +94,38 @@ export default class FilmPopupView extends AbstractStatefulView {
     this._callback.favoriteBtnClick();
   };
 
-  // setEmojiHandler = (callback) => {
+#emotionClickHandler = (evt) => {
+  evt.preventDefault();
+  this.updateElement({
+    checkedEmotion: evt.currentTarget.dataset.emotionType,
+    scrollPosition: this.element.scrollTop
+  });
+};
 
-  // };
+#commentInputChangeHandler = (evt) => {
+   evt.preventDefault();
+  this._setState({comment: evt.target.value});
+};
+
+  #setInnerHandlers = () => {
+    this.element
+      .querySelectorAll('.film-details__emoji-label')
+      .forEach((element) => {
+        element.addEventListener('click', this.#emotionClickHandler);
+      });
+    this.element
+      .querySelector('.film-details__comment-input')
+      .addEventListener('input', this.#commentInputChangeHandler);
+  };
+
+  _restoreHandlers = () => {
+    this.setScrollPosition();
+    this.#setInnerHandlers();
+    this.setCloseBtnClickHandler(this._callback.closeBtnClick);
+    this.setWatchlistBtnClickHandler(this._callback.watchlistBtnClick);
+    this.setWatchedBtnClickHandler(this._callback.watchedBtnClick);
+    this.setFavoriteBtnClickHandler(this._callback.favoriteBtnClick);
+  };
+
 
 }
