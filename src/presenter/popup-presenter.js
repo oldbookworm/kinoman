@@ -47,6 +47,7 @@ export default class PopupPresenter {
         }
 
         replace(this.#popupComponent, prevPopupComponent);
+        this.#popupComponent.setScrollPosition();
         remove(prevPopupComponent);
 
     }
@@ -54,6 +55,7 @@ export default class PopupPresenter {
     destroy = () => {
         remove(this.#popupComponent);
     };
+
 
     #removeOnEsc = (evt) => {
         if (evt.key === 'Escape' || evt.key === 'Esc') {
